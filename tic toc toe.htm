@@ -1,0 +1,43 @@
+// Backend code using Node.js and Socket.io
+
+const express = require('express');
+const socket = require('socket.io');
+
+const app = express();
+const server = app.listen(3000, () => {
+console.log('Server listening on port 3000');
+});
+
+const io = socket(server);
+
+io.on('connection', socket => {
+console.log('User connected', socket.id);
+
+socket.on('move', data => {
+// Update the game state with the move
+// Emit an event to all connected clients to update their UI
+io.sockets.emit('update', {...});
+});
+});
+
+// Frontend code using HTML, CSS, and JavaScript
+
+const socket = io();
+
+socket.on('connect', () => {
+console.log('Connected to server');
+});
+
+socket.on('update', data => {
+// Update the UI with the new game state
+});
+
+// Handle player moves
+
+const squares = document.querySelectorAll('.square');
+
+for (let i = 0; i < squares.length; i++) {
+squares[i].addEventListener('click', function() {
+socket.emit('move', {square: i});
+});
+}
